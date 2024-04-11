@@ -92,10 +92,10 @@ BEGIN
             VALUE "CompanyName", "com.mohammadareebkashaf" "\0"
             VALUE "FileDescription", "tutorials_world" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "tutorials_world" "\0"
+            VALUE "InternalName", "Tutorials World" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2024 com.mohammadareebkashaf. All rights reserved." "\0"
             VALUE "OriginalFilename", "tutorials_world.exe" "\0"
-            VALUE "ProductName", "tutorials_world" "\0"
+            VALUE "ProductName", "Tutorials World" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

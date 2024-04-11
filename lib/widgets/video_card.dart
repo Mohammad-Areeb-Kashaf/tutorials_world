@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:tutorials_world/consts/constant.dart';
 import 'package:tutorials_world/models/video_model.dart';
 
@@ -19,7 +20,7 @@ class VideoCard extends StatelessWidget {
         borderRadius: const BorderRadius.all(Radius.circular(12.0)),
         onTap: () => print('Tutorial Tapped'),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             ClipRRect(
@@ -34,15 +35,16 @@ class VideoCard extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
-              child: Text(
-                videoDetails.title,
-                softWrap: true,
-                style: const TextStyle(fontSize: 20),
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
+            Expanded(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
+                child: Text(
+                  videoDetails.title,
+                  style: const TextStyle(fontSize: 20),
+                  softWrap: true,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             ),
             Flexible(
