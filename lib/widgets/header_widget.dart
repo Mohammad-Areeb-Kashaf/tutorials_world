@@ -10,8 +10,9 @@ class HeaderWidget extends StatelessWidget {
       decoration: InputDecoration(
         filled: true,
         fillColor: cardBackgroundColor,
-        enabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.0),
+          borderSide: const BorderSide(
             color: Colors.transparent,
           ),
         ),
