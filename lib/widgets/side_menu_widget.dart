@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tutorials_world/consts/constant.dart';
+import 'package:tutorials_world/controllers/home_screen_controller.dart';
 import 'package:tutorials_world/data/side_menu_data.dart';
 
 class SideMenuWidget extends StatefulWidget {
@@ -10,7 +12,6 @@ class SideMenuWidget extends StatefulWidget {
 }
 
 class _SideMenuWidgetState extends State<SideMenuWidget> {
-  int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     final data = SideMenuData();
@@ -25,40 +26,49 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
   }
 
   Widget buildMenuEntry(SideMenuData data, int index) {
-    final isSelected = selectedIndex == index;
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 5),
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(6.0)),
-        color: isSelected ? selectionColor : Colors.transparent,
-      ),
-      child: InkWell(
-        borderRadius: const BorderRadius.all(Radius.circular(6.0)),
-        onTap: () => setState(() {
-          selectedIndex = index;
-        }),
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 7),
-              child: Icon(
-                isSelected
-                    ? data.selectedMenu[index].icon
-                    : data.menu[index].icon,
-                color: isSelected ? Colors.black : Colors.grey,
-              ),
-            ),
-            Text(
-              data.menu[index].title,
-              style: TextStyle(
-                fontSize: 16,
-                color: isSelected ? Colors.black : Colors.grey,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-              ),
-            ),
-          ],
+    return Obx(() {
+      var controller = Get.find<HomeScreenController>();
+      var selectedScreen = controller.screen.value;
+      final isSelected = selectedScreen == data.menu[index].screenDeterminer;
+      return Container(
+        margin: const EdgeInsets.symmetric(vertical: 5),
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(6.0)),
+          color: isSelected ? selectionColor : Colors.transparent,
         ),
-      ),
-    );
+        child: Material(
+          borderRadius: const BorderRadius.all(Radius.circular(6.0)),
+          color: isSelected ? selectionColor : Colors.transparent,
+          child: InkWell(
+            borderRadius: const BorderRadius.all(Radius.circular(6.0)),
+            onTap: () => controller.listTileSelected(
+                screenTile: data.menu[index].screenDeterminer),
+            child: Row(
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 13, vertical: 7),
+                  child: Icon(
+                    isSelected
+                        ? data.selectedMenu[index].icon
+                        : data.menu[index].icon,
+                    color: isSelected ? Colors.black : Colors.grey,
+                  ),
+                ),
+                Text(
+                  data.menu[index].title,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: isSelected ? Colors.black : Colors.grey,
+                    fontWeight:
+                        isSelected ? FontWeight.w600 : FontWeight.normal,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    });
   }
 }

@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:tutorials_world/controllers/home_screen_controller.dart';
 import 'package:tutorials_world/widgets/side_menu_widget.dart';
-import 'package:tutorials_world/widgets/videos_home_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    final homeScreenController = Get.find<HomeScreenController>();
+    return Scaffold(
       body: SafeArea(
         child: Row(
           children: [
-            Expanded(
+            const Expanded(
               flex: 2,
               child: SizedBox(
                 child: SideMenuWidget(),
@@ -19,7 +21,9 @@ class HomeScreen extends StatelessWidget {
             ),
             Expanded(
               flex: 10,
-              child: VideosHomeWidget(),
+              child: Obx(() {
+                return homeScreenController.screenDeterminer();
+              }),
             ),
           ],
         ),

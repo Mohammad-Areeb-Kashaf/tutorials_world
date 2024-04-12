@@ -36,12 +36,14 @@ class VideoCard extends StatelessWidget {
               ),
             ),
             Expanded(
+              flex: 0,
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
                 child: Text(
                   videoDetails.title,
                   style: const TextStyle(fontSize: 20),
+                  maxLines: 3,
                   softWrap: true,
                   overflow: TextOverflow.ellipsis,
                 ),
