@@ -1,14 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:tutorials_world/consts/constant.dart';
-import 'package:tutorials_world/models/video_model.dart';
+import 'package:tutorials_world/models/playlist_model.dart';
 
-class VideoCard extends StatelessWidget {
-  final Video videoDetails;
-  const VideoCard({
-    super.key,
-    required this.videoDetails,
-  });
+class PlaylistCard extends StatelessWidget {
+  final Playlist playlistDetails;
+  const PlaylistCard({super.key, required this.playlistDetails});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +27,7 @@ class VideoCard extends StatelessWidget {
                 aspectRatio: 16 / 9,
                 child: CachedNetworkImage(
                   fit: BoxFit.cover,
-                  imageUrl: videoDetails.thumbnailUrl,
+                  imageUrl: playlistDetails.thumbnailUrl,
                 ),
               ),
             ),
@@ -40,7 +37,7 @@ class VideoCard extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
                 child: Text(
-                  videoDetails.title,
+                  playlistDetails.title,
                   style: const TextStyle(fontSize: 20),
                   maxLines: 3,
                   softWrap: true,
@@ -50,14 +47,26 @@ class VideoCard extends StatelessWidget {
             ),
             Flexible(
               child: Align(
-                alignment: Alignment.bottomLeft,
+                alignment: Alignment.bottomCenter,
                 child: Padding(
                   padding:
                       const EdgeInsets.only(bottom: 6.0, right: 8.0, left: 8.0),
-                  child: Text(
-                    videoDetails.channelTitle,
-                    style: const TextStyle(color: Colors.grey, fontSize: 16),
-                    overflow: TextOverflow.ellipsis,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        playlistDetails.channelTitle,
+                        style:
+                            const TextStyle(color: Colors.grey, fontSize: 16),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        "Videos:- ${playlistDetails.videoCount}",
+                        style:
+                            const TextStyle(color: Colors.grey, fontSize: 16),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
                   ),
                 ),
               ),
