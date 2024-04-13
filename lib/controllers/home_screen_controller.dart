@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
 import 'package:tutorials_world/widgets/playlists_home_widget.dart';
 import 'package:tutorials_world/widgets/profile_home_widget.dart';
-import 'package:tutorials_world/widgets/settings_home_widget.dart';
+import 'package:tutorials_world/widgets/request_a_tutorial_home_widget.dart';
 import 'package:tutorials_world/widgets/videos_home_widget.dart';
 
-enum ScreenDeterminer { videos, playlists, settings, profile }
+enum ScreenDeterminer { videos, playlists, requestATutorial, profile }
 
 class HomeScreenController extends GetxController {
   var screen = ScreenDeterminer.videos.obs;
@@ -15,8 +15,8 @@ class HomeScreenController extends GetxController {
         return const VideosHomeWidget();
       case ScreenDeterminer.playlists:
         return const PlaylistsHomeWidget();
-      case ScreenDeterminer.settings:
-        return const SettingsHomeWidget();
+      case ScreenDeterminer.requestATutorial:
+        return const RequestATutorialHomeWidget();
       case ScreenDeterminer.profile:
         return const ProfileHomeWidget();
       default:
@@ -32,7 +32,7 @@ class HomeScreenController extends GetxController {
       case ScreenDeterminer.playlists:
         screen.value = screenTile;
         break;
-      case ScreenDeterminer.settings:
+      case ScreenDeterminer.requestATutorial:
         screen.value = screenTile;
         break;
       case ScreenDeterminer.profile:

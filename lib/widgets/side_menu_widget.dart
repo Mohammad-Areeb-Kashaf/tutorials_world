@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:tutorials_world/consts/constant.dart';
 import 'package:tutorials_world/controllers/home_screen_controller.dart';
@@ -55,13 +56,17 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
                     color: isSelected ? Colors.black : Colors.grey,
                   ),
                 ),
-                Text(
-                  data.menu[index].title,
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: isSelected ? Colors.black : Colors.grey,
-                    fontWeight:
-                        isSelected ? FontWeight.w600 : FontWeight.normal,
+                Expanded(
+                  child: Text(
+                    data.menu[index].title,
+                    softWrap: true,
+                    maxLines: 2,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: isSelected ? Colors.black : Colors.grey,
+                      fontWeight:
+                          isSelected ? FontWeight.w600 : FontWeight.normal,
+                    ),
                   ),
                 ),
               ],
