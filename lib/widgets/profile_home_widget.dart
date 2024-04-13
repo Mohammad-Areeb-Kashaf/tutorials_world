@@ -53,7 +53,7 @@ class ProfileHomeWidget extends StatelessWidget {
                 onPressed: () {},
                 style: ButtonStyle(
                   minimumSize: MaterialStateProperty.all<Size>(
-                      const Size.fromHeight(40)),
+                      const Size.fromHeight(50)),
                   side: MaterialStateProperty.all(
                       const BorderSide(color: Colors.red)),
                   foregroundColor:
