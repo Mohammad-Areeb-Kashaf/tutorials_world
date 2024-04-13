@@ -14,13 +14,13 @@ class SideMenuData {
         title: "Playlists",
         screenDeterminer: ScreenDeterminer.playlists),
     MenuModel(
-        icon: Icons.settings_rounded,
-        title: "Settings",
-        screenDeterminer: ScreenDeterminer.settings),
-    MenuModel(
         icon: CupertinoIcons.person_fill,
         title: "Profile",
-        screenDeterminer: ScreenDeterminer.profile)
+        screenDeterminer: ScreenDeterminer.profile),
+    MenuModel(
+        icon: Icons.menu_rounded,
+        title: "Request A Tutorial",
+        screenDeterminer: ScreenDeterminer.requestATutorial),
   ];
 
   final menu = const <MenuModel>[
@@ -33,12 +33,12 @@ class SideMenuData {
         title: "Playlists",
         screenDeterminer: ScreenDeterminer.playlists),
     MenuModel(
-        icon: Icons.settings_outlined,
-        title: "Settings",
-        screenDeterminer: ScreenDeterminer.settings),
-    MenuModel(
         icon: CupertinoIcons.person,
         title: "Profile",
-        screenDeterminer: ScreenDeterminer.profile)
+        screenDeterminer: ScreenDeterminer.profile),
+    MenuModel(
+        icon: Icons.menu_outlined,
+        title: "Request A Tutorial",
+        screenDeterminer: ScreenDeterminer.requestATutorial),
   ];
 }
