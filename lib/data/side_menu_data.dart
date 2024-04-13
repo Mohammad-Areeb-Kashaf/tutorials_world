@@ -20,7 +20,7 @@ class SideMenuData {
     MenuModel(
         icon: Icons.menu_rounded,
         title: "Request A Tutorial",
-        screenDeterminer: ScreenDeterminer.requestATutorial),
+        screenDeterminer: ScreenDeterminer.requestTutorial),
   ];
 
   final menu = const <MenuModel>[
@@ -39,6 +39,6 @@ class SideMenuData {
     MenuModel(
         icon: Icons.menu_outlined,
         title: "Request A Tutorial",
-        screenDeterminer: ScreenDeterminer.requestATutorial),
+        screenDeterminer: ScreenDeterminer.requestTutorial),
   ];
 }
