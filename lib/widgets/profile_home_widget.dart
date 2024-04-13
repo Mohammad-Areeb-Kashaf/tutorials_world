@@ -50,34 +50,29 @@ class ProfileHomeWidget extends StatelessWidget {
                 height: 20,
               ),
               ElevatedButton.icon(
-                onPressed: () {
-                  // Add your logout logic here
-                },
+                onPressed: () {},
                 style: ButtonStyle(
                   minimumSize: MaterialStateProperty.all<Size>(
                       const Size.fromHeight(40)),
                   side: MaterialStateProperty.all(
-                      const BorderSide(color: Colors.red)), // Red border
+                      const BorderSide(color: Colors.red)),
                   foregroundColor:
                       MaterialStateProperty.resolveWith<Color>((states) {
                     if (states.contains(MaterialState.hovered)) {
-                      return Colors
-                          .white; // Hovered color (entire button turns red)
+                      return Colors.white;
                     }
-                    return Colors.red; // Default transparent background
-                  }), // White text color
+                    return Colors.red;
+                  }),
                   backgroundColor:
                       MaterialStateProperty.resolveWith<Color>((states) {
                     if (states.contains(MaterialState.hovered)) {
-                      return Colors
-                          .red; // Hovered color (entire button turns red)
+                      return Colors.red;
                     }
-                    return Colors.transparent; // Default transparent background
+                    return Colors.transparent;
                   }),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(8.0), // Rounded corners
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
                   ),
                 ),
