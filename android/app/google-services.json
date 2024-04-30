@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "5350672937",
+    "project_id": "tutorials-world-new",
+    "storage_bucket": "tutorials-world-new.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:5350672937:android:0b4788f25bcaaaccb96a38",
+        "android_client_info": {
+          "package_name": "com.mohammadareebkashaf.tutorials_world"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBe_4oUzb7oV-X0k8ITMNoNRbQ4N28rbVY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

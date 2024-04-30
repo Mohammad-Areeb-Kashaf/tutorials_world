@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tutorials_world/controllers/home_screen_controller.dart';
+import 'package:tutorials_world/widgets/internet_checker.dart';
 import 'package:tutorials_world/widgets/side_menu_widget.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -22,7 +23,8 @@ class HomeScreen extends StatelessWidget {
             Expanded(
               flex: 10,
               child: Obx(() {
-                return homeScreenController.screenDeterminer();
+                return InternetChecker(
+                    child: homeScreenController.screenDeterminer());
               }),
             ),
           ],

@@ -11,7 +11,7 @@ class PlaylistDetails {
         videoCount: "103",
         channelTitle: "CodeWithHarry"),
     Playlist(
-        id: ";ajsjopw",
+        id: "PLu0W_9lII9agq5TrH9XLIKQvv0iaF2X3w",
         title: "JavaScript Tutorials for Beginners in Hindi",
         description: "ldjfowpouer",
         thumbnailUrl: "https://i.ytimg.com/vi/-Q4lm8eYulw/hqdefault.jpg",

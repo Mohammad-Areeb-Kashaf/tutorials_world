@@ -1,7 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:tutorials_world/consts/constant.dart';
 import 'package:tutorials_world/models/video_model.dart';
+import 'package:get/get.dart';
 
 class VideoCard extends StatelessWidget {
   final Video videoDetails;
@@ -13,24 +13,31 @@ class VideoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+      borderRadius: BorderRadius.circular(12.0),
       color: cardBackgroundColor,
       child: InkWell(
-        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-        onTap: () => print('Tutorial Tapped'),
+        borderRadius: BorderRadius.circular(12.0),
+        onTap: () => Get.toNamed(
+          "/tutorial?id=${videoDetails.id}&isList=${true}",
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             ClipRRect(
               borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(8.0),
+                  topLeft: Radius.circular(12.0),
                   topRight: Radius.circular(12.0)),
               child: AspectRatio(
                 aspectRatio: 16 / 9,
-                child: CachedNetworkImage(
+                child: Image(
                   fit: BoxFit.cover,
-                  imageUrl: videoDetails.thumbnailUrl,
+                  image: NetworkImage(videoDetails.thumbnailUrl),
+                  errorBuilder: (context, object, stackTrace) {
+                    return const Center(
+                      child: Icon(Icons.error),
+                    );
+                  },
                 ),
               ),
             ),

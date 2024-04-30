@@ -61,7 +61,7 @@ class RequestTutorialHomeWidget extends StatelessWidget {
                   }),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
+                      borderRadius: BorderRadius.circular(6.0),
                     ),
                   ),
                 ),
