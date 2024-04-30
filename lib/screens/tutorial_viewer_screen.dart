@@ -32,7 +32,8 @@ class _TutorialViewerScreenState extends State<TutorialViewerScreen> {
     // if (kIsWeb) {
     // return TutorialPlayer(id: id.toString(), isList: isList);
     //} else {
-    return InternetChecker(child: TutorialPlayer(id: id.toString(), isList: isList));
+    return InternetChecker(
+        child: TutorialPlayer(id: id.toString(), isList: isList));
   }
 }
 
