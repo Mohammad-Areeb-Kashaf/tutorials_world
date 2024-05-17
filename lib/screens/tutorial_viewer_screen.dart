@@ -1,8 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tutorials_world/widgets/internet_checker.dart';
 // import 'package:tutorials_world/widgets/tutorial_player_mobile.dart';
-import 'package:tutorials_world/widgets/tutorial_player_web.dart';
+import 'package:tutorials_world/widgets/tutorial_player.dart';
 
 class TutorialViewerScreen extends StatefulWidget {
   const TutorialViewerScreen({
@@ -33,7 +34,15 @@ class _TutorialViewerScreenState extends State<TutorialViewerScreen> {
     // return TutorialPlayer(id: id.toString(), isList: isList);
     //} else {
     return InternetChecker(
-        child: TutorialPlayer(id: id.toString(), isList: isList));
+        child: Scaffold(
+      appBar: kIsWeb
+          ? null
+          : AppBar(
+              backgroundColor: Colors.transparent,
+            ),
+      body: SingleChildScrollView(
+          child: TutorialPlayer(id: id.toString(), isList: isList)),
+    ));
   }
 }
 

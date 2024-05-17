@@ -18,7 +18,7 @@ class VideoCard extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(12.0),
         onTap: () => Get.toNamed(
-          "/tutorial?id=${videoDetails.id}&isList=${true}",
+          "/tutorial?id=${videoDetails.id}&isList=${false}",
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
