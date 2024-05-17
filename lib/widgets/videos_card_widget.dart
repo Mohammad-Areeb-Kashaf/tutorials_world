@@ -12,7 +12,7 @@ class VideosCardWidget extends StatelessWidget {
     return GridView.builder(
       itemCount: videoDetails.videoData.length,
       shrinkWrap: true,
-      physics: const ScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 4,
         crossAxisSpacing: 10,

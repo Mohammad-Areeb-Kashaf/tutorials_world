@@ -12,7 +12,7 @@ class PlaylistsCardWidget extends StatelessWidget {
     return GridView.builder(
       itemCount: playlistDetails.playlistData.length,
       shrinkWrap: true,
-      physics: const ScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 4,
         crossAxisSpacing: 10,

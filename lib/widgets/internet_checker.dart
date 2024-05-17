@@ -9,11 +9,9 @@ class InternetChecker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: NetworkAwareWidget(
-        onlineChild: child,
-        offlineChild: const NoInternetHomeWidget(),
-      ),
+    return NetworkAwareWidget(
+      onlineChild: child,
+      offlineChild: const NoInternetHomeWidget(),
     );
   }
 }
