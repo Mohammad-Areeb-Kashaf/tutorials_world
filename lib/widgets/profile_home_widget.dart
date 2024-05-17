@@ -52,25 +52,25 @@ class ProfileHomeWidget extends StatelessWidget {
               ElevatedButton.icon(
                 onPressed: () {},
                 style: ButtonStyle(
-                  minimumSize: MaterialStateProperty.all<Size>(
-                      const Size.fromHeight(50)),
-                  side: MaterialStateProperty.all(
+                  minimumSize:
+                      const WidgetStatePropertyAll<Size>(Size.fromHeight(50)),
+                  side: WidgetStateProperty.all(
                       const BorderSide(color: Colors.red)),
                   foregroundColor:
-                      MaterialStateProperty.resolveWith<Color>((states) {
-                    if (states.contains(MaterialState.hovered)) {
+                      WidgetStateProperty.resolveWith<Color>((states) {
+                    if (states.contains(WidgetState.hovered)) {
                       return Colors.white;
                     }
                     return Colors.red;
                   }),
                   backgroundColor:
-                      MaterialStateProperty.resolveWith<Color>((states) {
-                    if (states.contains(MaterialState.hovered)) {
+                      WidgetStateProperty.resolveWith<Color>((states) {
+                    if (states.contains(WidgetState.hovered)) {
                       return Colors.red;
                     }
                     return Colors.transparent;
                   }),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  shape: WidgetStatePropertyAll<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(6.0),
                     ),

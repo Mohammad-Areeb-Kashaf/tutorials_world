@@ -6,12 +6,14 @@ class NoInternetHomeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Center(
-        child: Column(
-          children: [
-            Text('No Internet'),
-            Text('Please check your internet connection and try again.')
-          ],
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            children: [
+              Text('No Internet'),
+              Text('Please check your internet connection and try again.')
+            ],
+          ),
         ),
       ),
     );
