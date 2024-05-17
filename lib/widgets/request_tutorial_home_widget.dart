@@ -74,7 +74,7 @@ class RequestTutorialHomeWidget extends StatelessWidget {
               ),
               const Expanded(
                 child: Text(
-                    "You can request a playlist or a video to be added to Tutorials World. Just paste it's link in the textfield above."),
+                    "You can request a playlist or a video to be added to Tutorials World. Just paste it's link in the text field above."),
               )
             ],
           ),
