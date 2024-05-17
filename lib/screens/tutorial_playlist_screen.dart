@@ -21,8 +21,7 @@ class TutorialPlaylistScreen extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Flexible(
-                    fit: FlexFit.loose,
+                  Expanded(
                     flex: 2,
                     child: Container(
                       padding: const EdgeInsets.all(18.0),
@@ -84,8 +83,7 @@ class TutorialPlaylistScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Flexible(
-                    fit: FlexFit.loose,
+                  Expanded(
                     flex: 6,
                     child: Container(
                       decoration: const BoxDecoration(color: backgroundColor),
