@@ -14,7 +14,7 @@ class YoutubeApiController extends GetxController {
   final String apiKey = youtubeAPIKey;
 
   var playlists = <Playlist>[].obs;
-  var videos = <String, Video>{}.obs;
+  var videos = <Video>[].obs;
   var playlistVideos = <Video>[].obs;
   var isLoading = false.obs;
 
@@ -73,7 +73,7 @@ class YoutubeApiController extends GetxController {
         for (var json in videoJson) {
           video = Video.fromMap(json, nextPageToken, true);
         }
-        videos[videoId] = video;
+        videos.add(video);
       } else {
         throw json.decode(response.body)['error']['message'];
       }
@@ -110,7 +110,6 @@ class YoutubeApiController extends GetxController {
         for (var json in playlistJson) {
           var playlistData = Playlist.fromMap(json);
           playlists.add(playlistData);
-          print(playlistData.id);
         }
       } else {
         throw json.decode(response.body)['error']['message'];

@@ -4,10 +4,10 @@ import 'package:tutorials_world/models/video_model.dart';
 import 'package:get/get.dart';
 
 class VideoCard extends StatelessWidget {
-  final Video videoDetails;
+  final Video video;
   const VideoCard({
     super.key,
-    required this.videoDetails,
+    required this.video,
   });
 
   @override
@@ -18,7 +18,7 @@ class VideoCard extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(12.0),
         onTap: () => Get.toNamed(
-          "/tutorial?id=${videoDetails.id}&isList=${false}",
+          "/tutorial?id=${video.id}&isList=${false}",
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -32,7 +32,7 @@ class VideoCard extends StatelessWidget {
                 aspectRatio: 16 / 9,
                 child: Image(
                   fit: BoxFit.cover,
-                  image: NetworkImage(videoDetails.thumbnailUrl),
+                  image: NetworkImage(video.thumbnailUrl),
                   errorBuilder: (context, object, stackTrace) {
                     return const Center(
                       child: Icon(Icons.error),
@@ -47,7 +47,7 @@ class VideoCard extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
                 child: Text(
-                  videoDetails.title,
+                  video.title,
                   style: const TextStyle(fontSize: 20),
                   maxLines: 3,
                   softWrap: true,
@@ -62,7 +62,7 @@ class VideoCard extends StatelessWidget {
                   padding:
                       const EdgeInsets.only(bottom: 6.0, right: 8.0, left: 8.0),
                   child: Text(
-                    videoDetails.channelTitle,
+                    video.channelTitle,
                     style: const TextStyle(color: Colors.grey, fontSize: 16),
                     overflow: TextOverflow.ellipsis,
                   ),

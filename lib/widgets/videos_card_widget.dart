@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tutorials_world/data/video_details.dart';
+import 'package:get/get.dart';
+import 'package:tutorials_world/controllers/youtube_api_controller.dart';
 import 'package:tutorials_world/widgets/video_card.dart';
 
 class VideosCardWidget extends StatelessWidget {
@@ -7,20 +8,22 @@ class VideosCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final videoDetails = VideoDetails();
+    final youtubeApiController = Get.find<YoutubeApiController>();
 
-    return GridView.builder(
-      itemCount: videoDetails.videoData.length,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 4,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        mainAxisExtent: 344,
-      ),
-      itemBuilder: (context, index) => VideoCard(
-        videoDetails: videoDetails.videoData[index],
+    return Obx(
+      () => GridView.builder(
+        itemCount: youtubeApiController.videos.length,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 4,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          mainAxisExtent: 344,
+        ),
+        itemBuilder: (context, index) => VideoCard(
+          video: youtubeApiController.videos[index],
+        ),
       ),
     );
   }
