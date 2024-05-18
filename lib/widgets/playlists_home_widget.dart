@@ -7,18 +7,22 @@ class PlaylistsHomeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 18.0),
-        child: Column(
-          children: [
-            SizedBox(height: 18),
-            HeaderWidget(),
-            SizedBox(height: 18),
-            PlaylistsCardWidget(),
-          ],
+    return ListView(
+      children: const [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 18.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 18),
+              HeaderWidget(),
+              SizedBox(height: 18),
+              PlaylistsCardWidget(),
+            ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }

@@ -13,7 +13,7 @@ class YoutubeApiController extends GetxController {
   static String maxResults = '8';
   final String apiKey = youtubeAPIKey;
 
-  var playlists = <String, List<Playlist>>{}.obs;
+  var playlists = <Playlist>[].obs;
   var videos = <String, Video>{}.obs;
   var playlistVideos = <Video>[].obs;
   var isLoading = false.obs;
@@ -106,12 +106,12 @@ class YoutubeApiController extends GetxController {
         var data = json.decode(response.body);
         nextPageToken = data['nextPageToken'] ?? '';
         List<dynamic> playlistJson = data['items'];
-        List<Playlist> fetchedPlaylists = [];
 
         for (var json in playlistJson) {
-          fetchedPlaylists.add(Playlist.fromMap(json));
+          var playlistData = Playlist.fromMap(json);
+          playlists.add(playlistData);
+          print(playlistData.id);
         }
-        playlists[playlistId] = fetchedPlaylists;
       } else {
         throw json.decode(response.body)['error']['message'];
       }

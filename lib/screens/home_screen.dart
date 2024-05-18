@@ -22,10 +22,12 @@ class HomeScreen extends StatelessWidget {
             ),
             Expanded(
               flex: 10,
-              child: Obx(() {
-                return InternetChecker(
-                    child: homeScreenController.screenDeterminer());
-              }),
+              child: Obx(
+                () {
+                  return InternetChecker(
+                      child: homeScreenController.screenDeterminer());
+                },
+              ),
             ),
           ],
         ),

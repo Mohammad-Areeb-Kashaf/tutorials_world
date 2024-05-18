@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tutorials_world/data/playlist_details.dart';
+import 'package:get/get.dart';
+import 'package:tutorials_world/controllers/youtube_api_controller.dart';
 import 'package:tutorials_world/widgets/playlist_card.dart';
 
 class PlaylistsCardWidget extends StatelessWidget {
@@ -7,20 +8,22 @@ class PlaylistsCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final playlistDetails = PlaylistDetails();
+    final youtubeApiController = Get.find<YoutubeApiController>();
 
-    return GridView.builder(
-      itemCount: playlistDetails.playlistData.length,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 4,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        mainAxisExtent: 344,
-      ),
-      itemBuilder: (context, index) => PlaylistCard(
-        playlistDetails: playlistDetails.playlistData[index],
+    return Obx(
+      () => GridView.builder(
+        itemCount: youtubeApiController.playlists.length,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 4,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          mainAxisExtent: 344,
+        ),
+        itemBuilder: (context, index) => PlaylistCard(
+          playlist: youtubeApiController.playlists[index],
+        ),
       ),
     );
   }

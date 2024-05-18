@@ -4,8 +4,8 @@ import 'package:tutorials_world/consts/constant.dart';
 import 'package:tutorials_world/models/playlist_model.dart';
 
 class PlaylistCard extends StatelessWidget {
-  final Playlist playlistDetails;
-  const PlaylistCard({super.key, required this.playlistDetails});
+  final Playlist playlist;
+  const PlaylistCard({super.key, required this.playlist});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class PlaylistCard extends StatelessWidget {
                 aspectRatio: 16 / 9,
                 child: Image(
                   fit: BoxFit.cover,
-                  image: NetworkImage(playlistDetails.thumbnailUrl),
+                  image: NetworkImage(playlist.thumbnailUrl),
                   errorBuilder: (context, object, stackTrace) {
                     return const Center(
                       child: Icon(Icons.error),
@@ -42,7 +42,7 @@ class PlaylistCard extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
                 child: Text(
-                  playlistDetails.title,
+                  playlist.title,
                   style: const TextStyle(fontSize: 20),
                   maxLines: 3,
                   softWrap: true,
@@ -60,13 +60,13 @@ class PlaylistCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        playlistDetails.channelTitle,
+                        playlist.channelTitle,
                         style:
                             const TextStyle(color: Colors.grey, fontSize: 16),
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(
-                        "Videos:- ${playlistDetails.videoCount}",
+                        "Videos:- ${playlist.videoCount}",
                         style:
                             const TextStyle(color: Colors.grey, fontSize: 16),
                         overflow: TextOverflow.ellipsis,
