@@ -19,9 +19,11 @@ class YoutubeApiController extends GetxController {
   var isLoading = false.obs;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
-    fetchInitialData();
+    isLoading.value = true;
+    await fetchInitialData();
+    isLoading.value = false;
   }
 
   Future<void> fetchInitialData() async {
@@ -41,11 +43,11 @@ class YoutubeApiController extends GetxController {
     ];
 
     for (var videoID in videoIDs) {
-      fetchVideoWithVideoID(videoId: videoID);
+      await fetchVideoWithVideoID(videoId: videoID);
     }
 
     for (var playlistID in playlistIDs) {
-      fetchPlaylistWithPlaylistID(playlistId: playlistID);
+      await fetchPlaylistWithPlaylistID(playlistId: playlistID);
     }
   }
 
@@ -106,11 +108,13 @@ class YoutubeApiController extends GetxController {
         var data = json.decode(response.body);
         nextPageToken = data['nextPageToken'] ?? '';
         List<dynamic> playlistJson = data['items'];
+        List<Playlist> fetchedPlaylist = [];
 
         for (var json in playlistJson) {
           var playlistData = Playlist.fromMap(json);
-          playlists.add(playlistData);
+          fetchedPlaylist.add(playlistData);
         }
+        playlists.addAll(fetchedPlaylist);
       } else {
         throw json.decode(response.body)['error']['message'];
       }
