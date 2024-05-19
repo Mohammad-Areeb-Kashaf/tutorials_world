@@ -14,7 +14,7 @@ class PlaylistCard extends StatelessWidget {
       color: cardBackgroundColor,
       child: InkWell(
         borderRadius: BorderRadius.circular(12.0),
-        onTap: () => Get.toNamed("/tutorial_playlist"),
+        onTap: () => Get.toNamed("/tutorial_playlist?id=${playlist.id}"),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.start,

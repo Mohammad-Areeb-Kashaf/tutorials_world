@@ -13,17 +13,15 @@ class YoutubeApiController extends GetxController {
   static String maxResults = '8';
   final String apiKey = youtubeAPIKey;
 
-  var playlists = <Playlist>[].obs;
-  var videos = <Video>[].obs;
+  var playlists = <String, Playlist>{}.obs;
+  var videos = <String, Video>{}.obs;
   var playlistVideos = <Video>[].obs;
   var isLoading = false.obs;
 
   @override
-  void onInit() async {
+  void onInit() {
     super.onInit();
-    isLoading.value = true;
-    await fetchInitialData();
-    isLoading.value = false;
+    fetchInitialData();
   }
 
   Future<void> fetchInitialData() async {
@@ -43,11 +41,11 @@ class YoutubeApiController extends GetxController {
     ];
 
     for (var videoID in videoIDs) {
-      await fetchVideoWithVideoID(videoId: videoID);
+      fetchVideoWithVideoID(videoId: videoID);
     }
 
     for (var playlistID in playlistIDs) {
-      await fetchPlaylistWithPlaylistID(playlistId: playlistID);
+      fetchPlaylistWithPlaylistID(playlistId: playlistID);
     }
   }
 
@@ -71,16 +69,16 @@ class YoutubeApiController extends GetxController {
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
         List<dynamic> videoJson = data['items'];
+        nextPageToken = data['nextPageToken'] ?? '';
         late Video video;
         for (var json in videoJson) {
           video = Video.fromMap(json, nextPageToken, true);
         }
-        videos.add(video);
+        videos[videoId] = video;
       } else {
         throw json.decode(response.body)['error']['message'];
       }
     } catch (e) {
-      networkController.checkInternet();
       rethrow;
     }
   }
@@ -108,18 +106,55 @@ class YoutubeApiController extends GetxController {
         var data = json.decode(response.body);
         nextPageToken = data['nextPageToken'] ?? '';
         List<dynamic> playlistJson = data['items'];
-        List<Playlist> fetchedPlaylist = [];
+        List<Playlist> fetchedPlaylists = [];
 
         for (var json in playlistJson) {
-          var playlistData = Playlist.fromMap(json);
-          fetchedPlaylist.add(playlistData);
+          fetchedPlaylists.add(Playlist.fromMap(json));
         }
-        playlists.addAll(fetchedPlaylist);
+        playlists[playlistId] = fetchedPlaylists.first;
       } else {
         throw json.decode(response.body)['error']['message'];
       }
     } catch (e) {
-      networkController.checkInternet();
+      rethrow;
+    }
+  }
+
+  Future<Playlist> fetchPlaylist({required String playlistId}) async {
+    Map<String, String> parameters = {
+      'part': 'snippet, contentDetails',
+      'id': playlistId,
+      'maxResults': maxResults,
+      'pageToken': nextPageToken,
+      'key': apiKey,
+    };
+    Uri uri = Uri.https(
+      _baseUrl,
+      '/youtube/v3/playlists',
+      parameters,
+    );
+    Map<String, String> headers = {
+      'Accept': 'application/json',
+    };
+
+    try {
+      await Future.delayed(const Duration(seconds: 1));
+
+      var response = await http.get(uri, headers: headers);
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        nextPageToken = data['nextPageToken'] ?? '';
+        List<dynamic> playlistJson = data['items'];
+        List<Playlist> fetchedPlaylists = [];
+
+        for (var json in playlistJson) {
+          fetchedPlaylists.add(Playlist.fromMap(json));
+        }
+        return fetchedPlaylists.first;
+      } else {
+        throw json.decode(response.body)['error']['message'];
+      }
+    } catch (e) {
       rethrow;
     }
   }
@@ -143,6 +178,7 @@ class YoutubeApiController extends GetxController {
     };
 
     try {
+      await Future.delayed(const Duration(seconds: 1));
       var response = await http.get(uri, headers: headers);
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
@@ -151,22 +187,17 @@ class YoutubeApiController extends GetxController {
         List<Video> fetchedVideos = [];
 
         for (var json in videosJson) {
-          fetchedVideos
-              .add(Video.fromMap(json['snippet'], nextPageToken, false));
+          var video = Video.fromMap(json['snippet'], nextPageToken, false);
+          fetchedVideos.add(video);
         }
         playlistVideos.addAll(fetchedVideos);
       } else {
         throw json.decode(response.body)['error']['message'];
       }
     } catch (e) {
-      networkController.checkInternet();
       rethrow;
     } finally {
       isLoading.value = false;
     }
-  }
-
-  void resetNextPageToken() {
-    nextPageToken = '';
   }
 }

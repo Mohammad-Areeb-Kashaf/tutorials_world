@@ -22,7 +22,7 @@ class VideosCardWidget extends StatelessWidget {
           mainAxisExtent: 344,
         ),
         itemBuilder: (context, index) => VideoCard(
-          video: youtubeApiController.videos[index],
+          video: youtubeApiController.videos.values.elementAt(index),
         ),
       ),
     );
