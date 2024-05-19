@@ -13,13 +13,6 @@ class NetworkController extends GetxController {
     Connectivity().onConnectivityChanged.listen(_updateConnectionStatus);
   }
 
-  checkInternet() async {
-    var connection = await InternetConnectionChecker().hasConnection;
-    connection
-        ? connectionStatus(NetworkStatus.online)
-        : connectionStatus(NetworkStatus.offline);
-  }
-
   void _updateConnectionStatus(List<ConnectivityResult> result) async {
     if (result.last == ConnectivityResult.none) {
       connectionStatus(NetworkStatus.offline);
