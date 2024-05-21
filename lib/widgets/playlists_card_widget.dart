@@ -22,7 +22,7 @@ class PlaylistsCardWidget extends StatelessWidget {
           mainAxisExtent: 344,
         ),
         itemBuilder: (context, index) => PlaylistCard(
-          playlist: youtubeApiController.playlists.values.elementAt(index),
+          playlist: youtubeApiController.playlists.elementAt(index),
         ),
       ),
     );

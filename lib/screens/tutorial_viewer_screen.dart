@@ -30,16 +30,15 @@ class _TutorialViewerScreenState extends State<TutorialViewerScreen> {
   @override
   Widget build(BuildContext context) {
     return InternetChecker(
-        child: Scaffold(
-      appBar: kIsWeb
-          ? null
-          : AppBar(
-              backgroundColor: Colors.transparent,
-            ),
-      body: SingleChildScrollView(
-          child: TutorialPlayer(id: id.toString(), isList: isList)),
-    ));
+      child: Scaffold(
+        appBar: kIsWeb
+            ? null
+            : AppBar(
+                backgroundColor: Colors.transparent,
+              ),
+        body: SingleChildScrollView(
+            child: TutorialPlayer(id: id.toString(), isList: isList)),
+      ),
+    );
   }
 }
-
-

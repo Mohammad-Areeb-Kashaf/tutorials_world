@@ -18,11 +18,13 @@ class _TutorialPlaylistScreenState extends State<TutorialPlaylistScreen> {
   String? id;
   Future<void>? fetchData;
   bool showText = true;
+  var playlist;
 
   @override
   void initState() {
     super.initState();
     id = Get.parameters['id'];
+    youtubeApiController.playlistVideos.value = [];
     if (id != null) {
       fetchData = getData();
     } else {}
@@ -30,7 +32,7 @@ class _TutorialPlaylistScreenState extends State<TutorialPlaylistScreen> {
 
   Future<void> getData() async {
     try {
-      await youtubeApiController.fetchPlaylist(playlistId: id!);
+      playlist = await youtubeApiController.fetchPlaylist(playlistId: id!);
       await youtubeApiController.fetchVideosFromPlaylist(playlistId: id!);
     } catch (e) {}
   }
@@ -53,7 +55,6 @@ class _TutorialPlaylistScreenState extends State<TutorialPlaylistScreen> {
             if (snapshot.hasError) {
               return const Center(child: Text("Error loading data."));
             }
-            var playlist = youtubeApiController.playlists[id];
             if (playlist == null) {
               return const Center(child: Text("Playlist not found."));
             }
@@ -166,110 +167,134 @@ class _TutorialPlaylistScreenState extends State<TutorialPlaylistScreen> {
                                           );
                                         }
 
-                                        return GridView.builder(
-                                          itemCount: youtubeApiController
-                                              .playlistVideos.length,
-                                          shrinkWrap: true,
-                                          physics:
-                                              const NeverScrollableScrollPhysics(),
-                                          gridDelegate:
-                                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: 3,
-                                            crossAxisSpacing: 10,
-                                            mainAxisSpacing: 10,
-                                            mainAxisExtent: 380,
-                                          ),
-                                          itemBuilder: (context, index) =>
-                                              Material(
-                                            borderRadius:
-                                                BorderRadius.circular(12.0),
-                                            color: cardBackgroundColor,
-                                            child: InkWell(
-                                              borderRadius:
-                                                  BorderRadius.circular(12.0),
-                                              onTap: () {},
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.stretch,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  ClipRRect(
-                                                    borderRadius:
-                                                        const BorderRadius.only(
-                                                            topLeft:
-                                                                Radius.circular(
-                                                                    12.0),
-                                                            topRight:
-                                                                Radius.circular(
-                                                                    12.0)),
-                                                    child: AspectRatio(
-                                                      aspectRatio: 16 / 9,
-                                                      child: Image.network(
-                                                        youtubeApiController
-                                                            .playlistVideos[
-                                                                index]
-                                                            .thumbnailUrl,
-                                                        fit: BoxFit.cover,
-                                                        errorBuilder: (context,
-                                                            object,
-                                                            stackTrace) {
-                                                          return const Center(
-                                                            child: Icon(
-                                                                Icons.error),
-                                                          );
-                                                        },
+                                        return Column(
+                                          children: [
+                                            GridView.builder(
+                                              itemCount: youtubeApiController
+                                                  .playlistVideos.length,
+                                              shrinkWrap: true,
+                                              physics:
+                                                  const NeverScrollableScrollPhysics(),
+                                              gridDelegate:
+                                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: 3,
+                                                crossAxisSpacing: 10,
+                                                mainAxisSpacing: 10,
+                                                mainAxisExtent: 380,
+                                              ),
+                                              itemBuilder: (context, index) =>
+                                                  Material(
+                                                borderRadius:
+                                                    BorderRadius.circular(12.0),
+                                                color: cardBackgroundColor,
+                                                child: InkWell(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          12.0),
+                                                  onTap: () {
+                                                    Get.toNamed(
+                                                        '/tutorial?id=${youtubeApiController.playlistVideos[index].id}&isList=true');
+                                                  },
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .stretch,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      ClipRRect(
+                                                        borderRadius:
+                                                            const BorderRadius
+                                                                .only(
+                                                                topLeft: Radius
+                                                                    .circular(
+                                                                        12.0),
+                                                                topRight: Radius
+                                                                    .circular(
+                                                                        12.0)),
+                                                        child: AspectRatio(
+                                                          aspectRatio: 16 / 9,
+                                                          child: Image.network(
+                                                            youtubeApiController
+                                                                .playlistVideos[
+                                                                    index]
+                                                                .thumbnailUrl,
+                                                            fit: BoxFit.cover,
+                                                            errorBuilder:
+                                                                (context,
+                                                                    object,
+                                                                    stackTrace) {
+                                                              return const Center(
+                                                                child: Icon(
+                                                                    Icons
+                                                                        .error),
+                                                              );
+                                                            },
+                                                          ),
+                                                        ),
                                                       ),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        horizontal: 8.0,
-                                                        vertical: 6.0),
-                                                    child: Text(
-                                                      youtubeApiController
-                                                          .playlistVideos[index]
-                                                          .title,
-                                                      style: const TextStyle(
-                                                          fontSize: 20),
-                                                      maxLines: 3,
-                                                      softWrap: true,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                    ),
-                                                  ),
-                                                  Flexible(
-                                                    child: Align(
-                                                      alignment:
-                                                          Alignment.bottomLeft,
-                                                      child: Padding(
+                                                      Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                .only(
-                                                                bottom: 6.0,
-                                                                right: 8.0,
-                                                                left: 8.0),
+                                                                .symmetric(
+                                                                horizontal: 8.0,
+                                                                vertical: 6.0),
                                                         child: Text(
                                                           youtubeApiController
                                                               .playlistVideos[
                                                                   index]
-                                                              .channelTitle,
+                                                              .title,
                                                           style:
                                                               const TextStyle(
-                                                                  color: Colors
-                                                                      .grey,
-                                                                  fontSize: 16),
+                                                                  fontSize: 20),
+                                                          maxLines: 3,
+                                                          softWrap: true,
                                                           overflow: TextOverflow
                                                               .ellipsis,
                                                         ),
                                                       ),
-                                                    ),
+                                                      Flexible(
+                                                        child: Align(
+                                                          alignment: Alignment
+                                                              .bottomLeft,
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .only(
+                                                                    bottom: 6.0,
+                                                                    right: 8.0,
+                                                                    left: 8.0),
+                                                            child: Text(
+                                                              youtubeApiController
+                                                                  .playlistVideos[
+                                                                      index]
+                                                                  .channelTitle,
+                                                              style: const TextStyle(
+                                                                  color: Colors
+                                                                      .grey,
+                                                                  fontSize: 16),
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
-                                                ],
+                                                ),
                                               ),
                                             ),
-                                          ),
+                                            const SizedBox(
+                                              height: 18,
+                                            ),
+                                            youtubeApiController.isLoading.value
+                                                ? const Center(
+                                                    child:
+                                                        CircularProgressIndicator(),
+                                                  )
+                                                : const SizedBox.shrink()
+                                          ],
                                         );
                                       },
                                     ),

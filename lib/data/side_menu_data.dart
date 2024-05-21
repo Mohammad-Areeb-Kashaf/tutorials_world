@@ -14,10 +14,6 @@ class SideMenuData {
         title: "Playlists",
         screenDeterminer: ScreenDeterminer.playlists),
     MenuModel(
-        icon: CupertinoIcons.person_fill,
-        title: "Profile",
-        screenDeterminer: ScreenDeterminer.profile),
-    MenuModel(
         icon: Icons.menu_rounded,
         title: "Request A Tutorial",
         screenDeterminer: ScreenDeterminer.requestTutorial),
@@ -32,10 +28,6 @@ class SideMenuData {
         icon: CupertinoIcons.square_list,
         title: "Playlists",
         screenDeterminer: ScreenDeterminer.playlists),
-    MenuModel(
-        icon: CupertinoIcons.person,
-        title: "Profile",
-        screenDeterminer: ScreenDeterminer.profile),
     MenuModel(
         icon: Icons.menu_outlined,
         title: "Request A Tutorial",

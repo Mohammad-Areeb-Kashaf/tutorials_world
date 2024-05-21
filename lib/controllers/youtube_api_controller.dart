@@ -10,11 +10,11 @@ class YoutubeApiController extends GetxController {
   final networkController = Get.find<NetworkController>();
   final String _baseUrl = 'www.googleapis.com';
   static String nextPageToken = '';
-  static String maxResults = '8';
+  static String maxResults = '9';
   final String apiKey = youtubeAPIKey;
 
-  var playlists = <String, Playlist>{}.obs;
-  var videos = <String, Video>{}.obs;
+  var playlists = <Playlist>[].obs;
+  var videos = <Video>[].obs;
   var playlistVideos = <Video>[].obs;
   var isLoading = false.obs;
 
@@ -41,11 +41,11 @@ class YoutubeApiController extends GetxController {
     ];
 
     for (var videoID in videoIDs) {
-      fetchVideoWithVideoID(videoId: videoID);
+      await fetchVideoWithVideoID(videoId: videoID);
     }
 
     for (var playlistID in playlistIDs) {
-      fetchPlaylistWithPlaylistID(playlistId: playlistID);
+      await fetchPlaylistWithPlaylistID(playlistId: playlistID);
     }
   }
 
@@ -74,7 +74,7 @@ class YoutubeApiController extends GetxController {
         for (var json in videoJson) {
           video = Video.fromMap(json, nextPageToken, true);
         }
-        videos[videoId] = video;
+        videos.add(video);
       } else {
         throw json.decode(response.body)['error']['message'];
       }
@@ -111,7 +111,7 @@ class YoutubeApiController extends GetxController {
         for (var json in playlistJson) {
           fetchedPlaylists.add(Playlist.fromMap(json));
         }
-        playlists[playlistId] = fetchedPlaylists.first;
+        playlists.add(fetchedPlaylists.first);
       } else {
         throw json.decode(response.body)['error']['message'];
       }
@@ -161,6 +161,7 @@ class YoutubeApiController extends GetxController {
 
   Future<void> fetchVideosFromPlaylist({required String playlistId}) async {
     isLoading.value = true;
+    
     Map<String, String> parameters = {
       'part': 'snippet',
       'playlistId': playlistId,
