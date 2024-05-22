@@ -1,10 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:get/get.dart';
 import 'package:tutorials_world/consts/constant.dart';
 import 'package:tutorials_world/controllers/youtube_api_controller.dart';
 import 'package:tutorials_world/widgets/header_widget.dart';
 import 'package:tutorials_world/widgets/internet_checker.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TutorialPlaylistScreen extends StatefulWidget {
   const TutorialPlaylistScreen({super.key});
@@ -134,10 +136,17 @@ class _TutorialPlaylistScreenState extends State<TutorialPlaylistScreen> {
                                     ],
                                   ),
                                   const SizedBox(height: 18),
-                                  Text(
-                                    playlist.description,
-                                    softWrap: true,
+                                  Linkify(
+                                    text: playlist.description,
                                     style: const TextStyle(fontSize: 16),
+                                    softWrap: true,
+                                    onOpen: (link) async {
+                                      if (await canLaunchUrl(Uri.parse(
+                                          "${link.url.toString()}/"))) {
+                                        await launchUrl(Uri.parse(
+                                            "${link.url.toString()}/"));
+                                      } else {}
+                                    },
                                   ),
                                 ],
                               ),
@@ -285,9 +294,11 @@ class _TutorialPlaylistScreenState extends State<TutorialPlaylistScreen> {
                                                 ),
                                               ),
                                             ),
-                                            const SizedBox(
-                                              height: 18,
-                                            ),
+                                            youtubeApiController.isLoading.value
+                                                ? const SizedBox(
+                                                    height: 18,
+                                                  )
+                                                : const SizedBox.shrink(),
                                             youtubeApiController.isLoading.value
                                                 ? const Center(
                                                     child:

@@ -161,44 +161,54 @@ class YoutubeApiController extends GetxController {
 
   Future<void> fetchVideosFromPlaylist({required String playlistId}) async {
     isLoading.value = true;
-    
-    Map<String, String> parameters = {
-      'part': 'snippet',
-      'playlistId': playlistId,
-      'maxResults': maxResults,
-      'pageToken': nextPageToken,
-      'key': apiKey,
-    };
-    Uri uri = Uri.https(
-      _baseUrl,
-      '/youtube/v3/playlistItems',
-      parameters,
-    );
-    Map<String, String> headers = {
-      'Accept': 'application/json',
-    };
-
-    try {
-      await Future.delayed(const Duration(seconds: 1));
-      var response = await http.get(uri, headers: headers);
-      if (response.statusCode == 200) {
-        var data = json.decode(response.body);
-        nextPageToken = data['nextPageToken'] ?? '';
-        List<dynamic> videosJson = data['items'];
-        List<Video> fetchedVideos = [];
-
-        for (var json in videosJson) {
-          var video = Video.fromMap(json['snippet'], nextPageToken, false);
-          fetchedVideos.add(video);
-        }
-        playlistVideos.addAll(fetchedVideos);
-      } else {
-        throw json.decode(response.body)['error']['message'];
+    if ((int.parse(playlists
+                .firstWhere((playlistItem) => playlistItem.id == playlistId)
+                .videoCount) -
+            1) ==
+        playlistVideos.length) {
+      return;
+    } else {
+      if (nextPageToken == "") {
+        playlistVideos.value = [];
       }
-    } catch (e) {
-      rethrow;
-    } finally {
-      isLoading.value = false;
+      Map<String, String> parameters = {
+        'part': 'snippet',
+        'playlistId': playlistId,
+        'maxResults': maxResults,
+        'pageToken': nextPageToken,
+        'key': apiKey,
+      };
+      Uri uri = Uri.https(
+        _baseUrl,
+        '/youtube/v3/playlistItems',
+        parameters,
+      );
+      Map<String, String> headers = {
+        'Accept': 'application/json',
+      };
+
+      try {
+        await Future.delayed(const Duration(seconds: 1));
+        var response = await http.get(uri, headers: headers);
+        if (response.statusCode == 200) {
+          var data = json.decode(response.body);
+          nextPageToken = data['nextPageToken'] ?? '';
+          List<dynamic> videosJson = data['items'];
+          List<Video> fetchedVideos = [];
+
+          for (var json in videosJson) {
+            var video = Video.fromMap(json['snippet'], nextPageToken, false);
+            fetchedVideos.add(video);
+          }
+          playlistVideos.addAll(fetchedVideos);
+        } else {
+          throw json.decode(response.body)['error']['message'];
+        }
+      } catch (e) {
+        rethrow;
+      } finally {
+        isLoading.value = false;
+      }
     }
   }
 }
