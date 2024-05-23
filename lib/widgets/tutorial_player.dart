@@ -88,68 +88,88 @@ class _TutorialPlayerState extends State<TutorialPlayer> {
             ),
           ),
           widget.isList
-              ? Expanded(
-                  flex: 3,
-                  child: Container(
-                    margin: const EdgeInsets.only(
-                      top: 16.0,
-                      bottom: 16.0,
-                      right: 16.0,
-                    ),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12.0),
-                        color: cardBackgroundColor),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: 5,
-                      itemBuilder: (context, index) => Material(
-                        borderRadius: BorderRadius.circular(12.0),
-                        color: cardBackgroundColor,
-                        child: InkWell(
-                          onTap: () => print('Tutorial tapped'),
+              ? Obx(() {
+                  return Expanded(
+                    flex: 3,
+                    child: Container(
+                      margin: const EdgeInsets.only(
+                        top: 16.0,
+                        bottom: 16.0,
+                        right: 16.0,
+                      ),
+                      decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12.0),
-                          child: ListTile(
-                            contentPadding: const EdgeInsets.all(16.0),
-                            leading: ClipRRect(
-                              borderRadius: BorderRadius.circular(6.0),
-                              child: AspectRatio(
-                                aspectRatio: 16 / 9,
-                                child: Image(
-                                  fit: BoxFit.cover,
-                                  image: NetworkImage(
-                                      YoutubePlayerController.getThumbnail(
-                                    videoId: widget.id,
-                                    webp: true,
-                                  )),
-                                  errorBuilder: (context, object, stackTrace) {
-                                    return const Center(
-                                      child: Icon(Icons.error),
-                                    );
-                                  },
+                          color: cardBackgroundColor),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: widget.isList
+                            ? youtubeApiController.playlistVideos.length
+                            : 0,
+                        itemBuilder: (context, index) => Material(
+                          borderRadius: BorderRadius.circular(12.0),
+                          color: cardBackgroundColor,
+                          child: InkWell(
+                            onTap: () {
+                              Get.back();
+                              Get.toNamed(
+                                  "/tutorial?id=${youtubeApiController.playlistVideos[index].id}&isList=${true}");
+                            },
+                            borderRadius: BorderRadius.circular(12.0),
+                            child: ListTile(
+                              contentPadding: const EdgeInsets.all(16.0),
+                              leading: ClipRRect(
+                                borderRadius: BorderRadius.circular(6.0),
+                                child: AspectRatio(
+                                  aspectRatio: 16 / 9,
+                                  child: Image(
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(
+                                      widget.isList
+                                          ? youtubeApiController
+                                              .playlistVideos[index]
+                                              .thumbnailUrl
+                                          : "",
+                                    ),
+                                    errorBuilder:
+                                        (context, object, stackTrace) {
+                                      return const Center(
+                                        child: Icon(Icons.error),
+                                      );
+                                    },
+                                  ),
                                 ),
                               ),
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            selected: (index + 1) == 1 ? true : false,
-                            selectedTileColor: selectionColor,
-                            selectedColor: Colors.black,
-                            title: Text(
-                              'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean m',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: (index + 1) == 1
-                                    ? FontWeight.bold
-                                    : FontWeight.normal,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12.0),
+                              ),
+                              selected: youtubeApiController
+                                          .playlistVideos[index].id ==
+                                      video!.id
+                                  ? true
+                                  : false,
+                              selectedTileColor: selectionColor,
+                              selectedColor: Colors.black,
+                              title: Text(
+                                widget.isList
+                                    ? youtubeApiController
+                                        .playlistVideos[index].title
+                                    : "",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: youtubeApiController
+                                              .playlistVideos[index].id ==
+                                          video!.id
+                                      ? FontWeight.bold
+                                      : FontWeight.normal,
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                )
+                  );
+                })
               : Expanded(
                   flex: 3,
                   child: Container(
