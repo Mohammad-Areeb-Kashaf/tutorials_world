@@ -15,6 +15,7 @@ class TutorialViewerScreen extends StatefulWidget {
 
 class _TutorialViewerScreenState extends State<TutorialViewerScreen> {
   late final String? id;
+  late final String? playlistId;
   late bool isList = false;
   String title = '';
   String desc = '';
@@ -24,6 +25,7 @@ class _TutorialViewerScreenState extends State<TutorialViewerScreen> {
   void initState() {
     super.initState();
     id = Get.parameters['id'];
+    playlistId = Get.parameters['playlistId'];
     isList = bool.parse(Get.parameters['isList'].toString());
   }
 
@@ -36,8 +38,11 @@ class _TutorialViewerScreenState extends State<TutorialViewerScreen> {
             : AppBar(
                 backgroundColor: Colors.transparent,
               ),
-        body: SingleChildScrollView(
-            child: TutorialPlayer(id: id.toString(), isList: isList)),
+        body: TutorialPlayer(
+          id: id.toString(),
+          isList: isList,
+          playlistId: playlistId,
+        ),
       ),
     );
   }

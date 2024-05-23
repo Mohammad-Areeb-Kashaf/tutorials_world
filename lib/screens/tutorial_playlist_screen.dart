@@ -4,6 +4,7 @@ import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:get/get.dart';
 import 'package:tutorials_world/consts/constant.dart';
 import 'package:tutorials_world/controllers/youtube_api_controller.dart';
+import 'package:tutorials_world/models/playlist_model.dart';
 import 'package:tutorials_world/widgets/header_widget.dart';
 import 'package:tutorials_world/widgets/internet_checker.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -20,7 +21,7 @@ class _TutorialPlaylistScreenState extends State<TutorialPlaylistScreen> {
   String? id;
   Future<void>? fetchData;
   bool showText = true;
-  var playlist;
+  Playlist? playlist;
 
   @override
   void initState() {
@@ -65,7 +66,7 @@ class _TutorialPlaylistScreenState extends State<TutorialPlaylistScreen> {
               onNotification: (notification) {
                 if (!youtubeApiController.isLoading.value &&
                     youtubeApiController.playlistVideos.length !=
-                        int.parse(playlist.videoCount) &&
+                        int.parse(playlist!.videoCount) &&
                     notification.metrics.atEdge) {
                   setState(() {
                     showText = false;
@@ -97,7 +98,7 @@ class _TutorialPlaylistScreenState extends State<TutorialPlaylistScreen> {
                                     child: AspectRatio(
                                       aspectRatio: 16 / 9,
                                       child: Image.network(
-                                        playlist.thumbnailUrl,
+                                        playlist!.thumbnailUrl,
                                         fit: BoxFit.cover,
                                         errorBuilder:
                                             (context, object, stackTrace) {
@@ -110,7 +111,7 @@ class _TutorialPlaylistScreenState extends State<TutorialPlaylistScreen> {
                                   ),
                                   const SizedBox(height: 18),
                                   Text(
-                                    playlist.title,
+                                    playlist!.title,
                                     style: const TextStyle(fontSize: 22),
                                     maxLines: 3,
                                     softWrap: true,
@@ -122,13 +123,13 @@ class _TutorialPlaylistScreenState extends State<TutorialPlaylistScreen> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        playlist.channelTitle,
+                                        playlist!.channelTitle,
                                         style: const TextStyle(
                                             color: Colors.grey, fontSize: 16),
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                       Text(
-                                        "Videos: ${playlist.videoCount}",
+                                        "Videos: ${playlist!.videoCount}",
                                         style: const TextStyle(
                                             color: Colors.grey, fontSize: 16),
                                         overflow: TextOverflow.ellipsis,
@@ -137,7 +138,7 @@ class _TutorialPlaylistScreenState extends State<TutorialPlaylistScreen> {
                                   ),
                                   const SizedBox(height: 18),
                                   Linkify(
-                                    text: playlist.description,
+                                    text: playlist!.description,
                                     style: const TextStyle(fontSize: 16),
                                     softWrap: true,
                                     onOpen: (link) async {
@@ -202,7 +203,7 @@ class _TutorialPlaylistScreenState extends State<TutorialPlaylistScreen> {
                                                           12.0),
                                                   onTap: () {
                                                     Get.toNamed(
-                                                        '/tutorial?id=${youtubeApiController.playlistVideos[index].id}&isList=true');
+                                                        '/tutorial?id=${youtubeApiController.playlistVideos[index].id}&isList=true&playlistId=${playlist!.id}');
                                                   },
                                                   child: Column(
                                                     crossAxisAlignment:

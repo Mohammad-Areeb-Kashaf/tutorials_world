@@ -9,8 +9,8 @@ import 'package:tutorials_world/secret_keys.dart';
 class YoutubeApiController extends GetxController {
   final networkController = Get.find<NetworkController>();
   final String _baseUrl = 'www.googleapis.com';
-  static String nextPageToken = '';
-  static String maxResults = '9';
+  String nextPageToken = '';
+  String maxResults = '9';
   final String apiKey = youtubeAPIKey;
 
   var playlists = <Playlist>[].obs;
@@ -159,6 +159,40 @@ class YoutubeApiController extends GetxController {
     }
   }
 
+  Future<Video> fetchVideo({required String videoId}) async {
+    Map<String, String> parameters = {
+      'part': 'snippet',
+      'id': videoId,
+      'key': apiKey,
+    };
+    Uri uri = Uri.https(
+      _baseUrl,
+      '/youtube/v3/videos',
+      parameters,
+    );
+    Map<String, String> headers = {
+      'Accept': 'application/json',
+    };
+
+    try {
+      var response = await http.get(uri, headers: headers);
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        List<dynamic> videoJson = data['items'];
+        nextPageToken = data['nextPageToken'] ?? '';
+        late Video video;
+        for (var json in videoJson) {
+          video = Video.fromMap(json, nextPageToken, true);
+        }
+        return video;
+      } else {
+        throw json.decode(response.body)['error']['message'];
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<void> fetchVideosFromPlaylist({required String playlistId}) async {
     isLoading.value = true;
     if ((int.parse(playlists
@@ -205,6 +239,7 @@ class YoutubeApiController extends GetxController {
           throw json.decode(response.body)['error']['message'];
         }
       } catch (e) {
+        print(e);
         rethrow;
       } finally {
         isLoading.value = false;
