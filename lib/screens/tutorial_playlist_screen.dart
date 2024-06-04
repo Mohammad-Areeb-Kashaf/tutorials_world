@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:get/get.dart';
@@ -44,11 +43,9 @@ class _TutorialPlaylistScreenState extends State<TutorialPlaylistScreen> {
   Widget build(BuildContext context) {
     return InternetChecker(
       child: Scaffold(
-        appBar: kIsWeb
-            ? null
-            : AppBar(
-                backgroundColor: Colors.transparent,
-              ),
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+        ),
         body: FutureBuilder(
           future: fetchData,
           builder: (context, snapshot) {

@@ -5,12 +5,15 @@ import 'package:tutorials_world/consts/constant.dart';
 import 'package:tutorials_world/firebase_options.dart';
 import 'package:tutorials_world/home_screen_binding.dart';
 import 'package:tutorials_world/routes/routes.dart';
+import 'package:url_strategy/url_strategy.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  setPathUrlStrategy();
   runApp(const MyApp());
 }
 

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tutorials_world/widgets/internet_checker.dart';
@@ -33,7 +32,7 @@ class _TutorialViewerScreenState extends State<TutorialViewerScreen> {
   Widget build(BuildContext context) {
     return InternetChecker(
       child: Scaffold(
-        appBar: kIsWeb
+        appBar: Get.previousRoute == ""
             ? null
             : AppBar(
                 backgroundColor: Colors.transparent,

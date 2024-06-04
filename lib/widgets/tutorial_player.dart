@@ -88,236 +88,242 @@ class _TutorialPlayerState extends State<TutorialPlayer> {
 
   Widget buildTutorialPlayer() {
     return FutureBuilder(
-        future: fetchData,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError) {
-            return const Center(child: Text("Error loading data."));
-          }
+      future: fetchData,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (snapshot.hasError) {
+          return const Center(child: Text("Error loading data."));
+        }
 
-          return YoutubePlayerScaffold(
-            controller: _controller,
-            builder: (context, player) =>
-                NotificationListener<ScrollNotification>(
-              onNotification: (notification) {
-                if (!youtubeApiController.isLoading.value &&
-                    youtubeApiController.playlistVideos.length !=
-                        int.parse(youtubeApiController.playlists
-                                .firstWhereOrNull((playlistItem) =>
-                                    playlistItem.id == widget.playlistId)
-                                ?.videoCount ??
-                            '0') &&
-                    notification.metrics.atEdge) {
-                  setState(() {
-                    showText = false;
-                  });
-                  youtubeApiController.fetchVideosFromPlaylist(
-                      playlistId: widget.playlistId.toString());
-                }
-                return false;
-              },
-              child: SingleChildScrollView(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      flex: 8,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: AspectRatio(
-                              aspectRatio: 16 / 9,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(12.0),
-                                child: player,
-                              ),
+        return YoutubePlayerScaffold(
+          controller: _controller,
+          builder: (context, player) =>
+              NotificationListener<ScrollNotification>(
+            onNotification: (notification) {
+              if (!youtubeApiController.isLoading.value &&
+                  youtubeApiController.playlistVideos.length !=
+                      int.parse(youtubeApiController.playlists
+                              .firstWhereOrNull((playlistItem) =>
+                                  playlistItem.id == widget.playlistId)
+                              ?.videoCount ??
+                          '0') &&
+                  notification.metrics.atEdge) {
+                setState(() {
+                  showText = false;
+                });
+                youtubeApiController.fetchVideosFromPlaylist(
+                    playlistId: widget.playlistId.toString());
+              }
+              return false;
+            },
+            child: SingleChildScrollView(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    flex: 8,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: AspectRatio(
+                            aspectRatio: 16 / 9,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12.0),
+                              child: player,
                             ),
                           ),
-                          widget.isList
-                              ? Container(
-                                  margin: const EdgeInsets.only(
-                                    bottom: 16.0,
-                                    right: 16.0,
-                                    left: 16.0,
-                                  ),
-                                  padding: const EdgeInsets.all(16.0),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12.0),
-                                      color: cardBackgroundColor),
-                                  child: video == null
-                                      ? const Center(
-                                          child: CircularProgressIndicator(),
-                                        )
-                                      : TutorialDetails(video: video),
-                                )
-                              : const SizedBox.shrink(),
-                        ],
-                      ),
+                        ),
+                        widget.isList
+                            ? Container(
+                                margin: const EdgeInsets.only(
+                                  bottom: 16.0,
+                                  right: 16.0,
+                                  left: 16.0,
+                                ),
+                                padding: const EdgeInsets.all(16.0),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12.0),
+                                    color: cardBackgroundColor),
+                                child: video == null
+                                    ? const Center(
+                                        child: CircularProgressIndicator(),
+                                      )
+                                    : TutorialDetails(video: video),
+                              )
+                            : const SizedBox.shrink(),
+                      ],
                     ),
-                    widget.isList
-                        ? Expanded(
-                            flex: 3,
-                            child: Container(
-                              margin: const EdgeInsets.only(
-                                top: 16.0,
-                                bottom: 16.0,
-                                right: 16.0,
-                              ),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12.0),
-                                  color: cardBackgroundColor),
-                              child: Obx(() {
-                                return Column(
-                                  children: [
-                                    showText &&
-                                            youtubeApiController
-                                                    .playlistVideos.length !=
-                                                int.parse(youtubeApiController
-                                                        .playlists
-                                                        .firstWhereOrNull(
-                                                            (playlistItem) =>
-                                                                playlistItem
-                                                                    .id ==
-                                                                widget
-                                                                    .playlistId)
-                                                        ?.videoCount
-                                                        .toString() ??
-                                                    "0")
-                                        ? const Text(
-                                            'Scroll to load more videos')
-                                        : const SizedBox.shrink(),
-                                    ListView.builder(
-                                      shrinkWrap: true,
-                                      itemCount: widget.isList
-                                          ? youtubeApiController
-                                              .playlistVideos.length
-                                          : 0,
-                                      itemBuilder: (context, index) => Material(
+                  ),
+                  widget.isList
+                      ? Expanded(
+                          flex: 3,
+                          child: Container(
+                            margin: const EdgeInsets.only(
+                              top: 16.0,
+                              bottom: 16.0,
+                              right: 16.0,
+                            ),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12.0),
+                                color: cardBackgroundColor),
+                            child: Obx(() {
+                              return Column(
+                                children: [
+                                  showText &&
+                                          youtubeApiController
+                                                  .playlistVideos.length !=
+                                              int.parse(youtubeApiController
+                                                      .playlists
+                                                      .firstWhereOrNull(
+                                                          (playlistItem) =>
+                                                              playlistItem.id ==
+                                                              widget.playlistId)
+                                                      ?.videoCount
+                                                      .toString() ??
+                                                  "0")
+                                      ? const Text('Scroll to load more videos')
+                                      : const SizedBox.shrink(),
+                                  ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: widget.isList
+                                        ? youtubeApiController
+                                            .playlistVideos.length
+                                        : 0,
+                                    itemBuilder: (context, index) => Material(
+                                      borderRadius: BorderRadius.circular(12.0),
+                                      color: cardBackgroundColor,
+                                      child: InkWell(
+                                        onTap: () {
+                                          _controller.close();
+                                          Get.back();
+                                          Get.toNamed(
+                                              "/tutorial?id=${youtubeApiController.playlistVideos[index].id}&isList=${true}&playlistId=${widget.playlistId}");
+                                        },
                                         borderRadius:
                                             BorderRadius.circular(12.0),
-                                        color: cardBackgroundColor,
-                                        child: InkWell(
-                                          onTap: () {
-                                            _controller.close();
-                                            Get.back();
-                                            Get.toNamed(
-                                                "/tutorial?id=${youtubeApiController.playlistVideos[index].id}&isList=${true}&playlistId=${widget.playlistId}");
-                                          },
-                                          borderRadius:
-                                              BorderRadius.circular(12.0),
-                                          child: ListTile(
-                                            contentPadding:
-                                                const EdgeInsets.all(16.0),
-                                            leading: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(6.0),
-                                              child: AspectRatio(
-                                                aspectRatio: 16 / 9,
-                                                child: Image(
-                                                  fit: BoxFit.cover,
-                                                  image: NetworkImage(
-                                                    widget.isList
-                                                        ? youtubeApiController
-                                                            .playlistVideos[
-                                                                index]
-                                                            .thumbnailUrl
-                                                        : "",
-                                                  ),
-                                                  errorBuilder: (context,
-                                                      object, stackTrace) {
-                                                    return const Center(
-                                                      child: Icon(Icons.error),
-                                                    );
-                                                  },
+                                        child: ListTile(
+                                          contentPadding:
+                                              const EdgeInsets.all(16.0),
+                                          leading: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(6.0),
+                                            child: AspectRatio(
+                                              aspectRatio: 16 / 9,
+                                              child: Image(
+                                                fit: BoxFit.cover,
+                                                image: NetworkImage(
+                                                  widget.isList
+                                                      ? youtubeApiController
+                                                          .playlistVideos[index]
+                                                          .thumbnailUrl
+                                                      : "",
                                                 ),
+                                                errorBuilder: (context, object,
+                                                    stackTrace) {
+                                                  return const Center(
+                                                    child: Icon(Icons.error),
+                                                  );
+                                                },
                                               ),
                                             ),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(12.0),
-                                            ),
-                                            selected: youtubeApiController
-                                                        .playlistVideos[index]
-                                                        .id ==
-                                                    video!.id
-                                                ? true
-                                                : false,
-                                            selectedTileColor: selectionColor,
-                                            selectedColor: Colors.black,
-                                            title: Text(
-                                              widget.isList
-                                                  ? youtubeApiController
+                                          ),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
+                                          ),
+                                          selected: youtubeApiController
                                                       .playlistVideos[index]
-                                                      .title
-                                                  : "",
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: youtubeApiController
-                                                            .playlistVideos[
-                                                                index]
-                                                            .id ==
-                                                        video!.id
-                                                    ? FontWeight.bold
-                                                    : FontWeight.normal,
-                                              ),
+                                                      .id ==
+                                                  video!.id
+                                              ? true
+                                              : false,
+                                          selectedTileColor: selectionColor,
+                                          selectedColor: Colors.black,
+                                          title: Text(
+                                            widget.isList
+                                                ? youtubeApiController
+                                                    .playlistVideos[index].title
+                                                : "",
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: youtubeApiController
+                                                          .playlistVideos[index]
+                                                          .id ==
+                                                      video!.id
+                                                  ? FontWeight.bold
+                                                  : FontWeight.normal,
                                             ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                    youtubeApiController.isLoading.value
-                                        ? const SizedBox(
-                                            height: 18,
-                                          )
-                                        : const SizedBox.shrink(),
-                                    youtubeApiController.isLoading.value
-                                        ? const CircularProgressIndicator()
-                                        : const SizedBox.shrink(),
-                                    youtubeApiController.isLoading.value
-                                        ? const SizedBox(
-                                            height: 18,
-                                          )
-                                        : const SizedBox.shrink(),
-                                  ],
-                                );
-                              }),
-                            ),
-                          )
-                        : Expanded(
-                            flex: 3,
-                            child: Container(
-                              margin: const EdgeInsets.only(
-                                top: 16.0,
-                                bottom: 16.0,
-                                right: 16.0,
-                              ),
-                              padding: const EdgeInsets.all(16.0),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12.0),
-                                  color: cardBackgroundColor),
-                              child: video == null
-                                  ? const Center(
-                                      child: CircularProgressIndicator(),
-                                    )
-                                  : TutorialDetails(
-                                      video: video,
-                                    ),
-                            ),
+                                  ),
+                                  youtubeApiController.isLoading.value
+                                      ? const SizedBox(
+                                          height: 18,
+                                        )
+                                      : const SizedBox.shrink(),
+                                  youtubeApiController.isLoading.value
+                                      ? const CircularProgressIndicator()
+                                      : const SizedBox.shrink(),
+                                  youtubeApiController.isLoading.value
+                                      ? const SizedBox(
+                                          height: 18,
+                                        )
+                                      : const SizedBox.shrink(),
+                                ],
+                              );
+                            }),
                           ),
-                  ],
-                ),
+                        )
+                      : Expanded(
+                          flex: 3,
+                          child: Container(
+                            margin: const EdgeInsets.only(
+                              top: 16.0,
+                              bottom: 16.0,
+                              right: 16.0,
+                            ),
+                            padding: const EdgeInsets.all(16.0),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12.0),
+                                color: cardBackgroundColor),
+                            child: video == null
+                                ? const Center(
+                                    child: CircularProgressIndicator(),
+                                  )
+                                : TutorialDetails(
+                                    video: video,
+                                  ),
+                          ),
+                        ),
+                ],
               ),
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return buildTutorialPlayer();
+  }
+
+  @override
+  void deactivate() {
+    _controller.pauseVideo();
+    super.deactivate();
+  }
+
+  @override
+  void dispose() {
+    _controller.close();
+    super.dispose();
   }
 }
